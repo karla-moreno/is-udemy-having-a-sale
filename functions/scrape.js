@@ -13,7 +13,7 @@ const src = 'https://www.udemy.com';
   // Wait for the results page to load and display the results.
   await page.waitForSelector("div[data-purpose='smart-bar-container']", { timeout: 0 })
   .then((element) => {
-    console.log('success');
+    console.log('success: smart bar is available');
   })
   .catch((err) => {
     console.log(err);
@@ -26,26 +26,23 @@ const src = 'https://www.udemy.com';
   console.log(bannerText);
   let saleEndTime = bannerText.split('Ends in');
   saleEndTime = JSON.stringify(saleEndTime[1]).replace('.', '').replace("\\", '').replace('"', '').replace('"\]"', '');
-  saleEndTime = saleEndTime.trim().toString();
-  saleEndTime = saleEndTime.split('h');
-  saleEndHours = saleEndTime[0];
-  saleEndTime = saleEndTime[1].trim().toString();
-  saleEndMin = saleEndTime.split('m')[0];
-  saleEndTime = saleEndTime[1].trim().toString();
-  saleEndSec = saleEndTime.split('s')[0];
-  console.log(saleEndHours, saleEndMin, saleEndSec);
-  const endTime = (saleEndHours * 3600) + (saleEndMin * 60) + saleEndSec;
-  console.log(endTime);
-  const currentTimeInSeconds = new Date().getTime() / 1000;
-  console.log(currentTimeInSeconds);
-  let endTimeInUtc = new Date(endTime + currentTimeInSeconds);
-  console.log(endTimeInUtc);
+  saleEndTime = saleEndTime.trim().split("h");
+  saleEndHour = saleEndTime[0];
+  saleEndTime = saleEndTime[1].trim().split("m");
+  saleEndMin = saleEndTime[0];
+  saleEndSec = saleEndTime[1].trim().split("s")[0];
+  console.log(saleEndHour, saleEndMin, saleEndSec);
+  const endTime = ((saleEndHour + 6) * 60 * 60) + (saleEndMin * 60) + saleEndSec;
+  const currentTime = new Date();
+  const currentTimeInSeconds = currentTime.getTime();
+  console.log(currentTime.toLocaleString());
 
-  // let saleHeadline = document.body.querySelector("[data-purpose='smart-bar-title']").textContent;
-  // console.log(saleHeadline);
+  let endTimeInUtc = new Date(Number(endTime) + currentTimeInSeconds);
+  console.log(endTimeInUtc.toLocaleString());
+
   // Extract the results from the page.
 
-  // await browser.close();
+  await browser.close();
 })();
 
 
