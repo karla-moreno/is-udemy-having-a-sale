@@ -32,9 +32,12 @@ const src = 'https://www.udemy.com';
   saleEndMin = saleEndTime[0];
   saleEndSec = saleEndTime[1].trim().split("s")[0];
   console.log(saleEndHour, saleEndMin, saleEndSec);
+  // NOTE: added 6 hours to account for my timezone... UTC-6?
+  // TODO: double check this logic
   const endTime = ((saleEndHour + 6) * 60 * 60) + (saleEndMin * 60) + saleEndSec;
   const currentTime = new Date();
   const currentTimeInSeconds = currentTime.getTime();
+  //TODO: check these times
   console.log(currentTime.toLocaleString());
 
   let endTimeInUtc = new Date(Number(endTime) + currentTimeInSeconds);
